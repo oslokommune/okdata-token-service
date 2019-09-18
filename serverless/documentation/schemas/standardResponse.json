@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "title": "Standard Response",
+  "properties": {
+    "message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

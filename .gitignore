@@ -107,3 +107,6 @@ venv.bak/
 
 # Idea
 .idea/
+
+# npm
+node_modules/

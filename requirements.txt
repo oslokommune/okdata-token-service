@@ -1,4 +1,2 @@
-sanic==0.8.0
-python-keycloak
-sanic-swagger
-cattrs
+python-keycloak==0.17.5
+jsonschema==3.0.2

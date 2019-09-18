@@ -1,0 +1,6 @@
+handler: token_service/main/main.handler
+events:
+  - http:
+      path: token
+      method: post
+      documentation: ${file(serverless/documentation/create-token.yml)}

@@ -1,0 +1,20 @@
+version: 0.1.0
+summary: Api for requsesting bearer tokens.
+description: Api for requsesting bearer tokens.
+models:
+  -
+    name: createTokenRequest
+    contentType: application/json
+    schema: ${file(serverless/documentation/schemas/createTokenRequest.json)}
+  -
+    name: createTokenResponse
+    contentType: application/json
+    schema: ${file(serverless/documentation/schemas/createTokenResponse.json)}
+  -
+    name: unauthorizedResponse
+    contentType: application/json
+    schema: ${file(serverless/documentation/schemas/unauthorizedResponse.json)}
+  -
+    name: standardResponse
+    contentType: applicaion/json
+    schema: ${file(serverless/documentation/schemas/standardResponse.json)}

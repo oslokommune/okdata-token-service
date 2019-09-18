@@ -1,0 +1,18 @@
+description: Creates and returns an access token.
+requestBody:
+  description: User credentials.
+requestModels:
+  application/json: createTokenRequest
+methodResponses:
+  -
+    statusCode: 200
+    responseModels:
+      application/json: createTokenResponse
+  -
+    statusCode: 401
+    responseModels:
+      application/json: unauthorizedResponse
+  -
+    statusCode: 400
+    responseModels:
+      application/json: standardResponse
