@@ -11,7 +11,8 @@ logger.setLevel(logging.INFO)
 with open("serverless/documentation/schemas/createTokenRequest.json") as f:
     create_token_request_schema = json.loads(f.read())
 
-def handler(event, context):
+
+def handle(event, context):
 
     try:
         body = json.loads(event["body"])
@@ -26,7 +27,4 @@ def handler(event, context):
 
 
 def lambda_http_proxy_response(status_code, response_body):
-    return {
-        "statusCode": status_code,
-        "body": json.dumps(response_body)
-    }
+    return {"statusCode": status_code, "body": json.dumps(response_body)}
