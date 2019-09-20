@@ -23,7 +23,7 @@ provider:
     KEYCLOAK_SERVER: ${ssm:/keycloak/client/server}
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
-    CLIENT_SECRET: ${ssm:/dataplatform/apis/token-service/auth/clientsecret~true}
+    CLIENT_SECRET: ${ssm:/dataplatform/apis/token-service/auth/client_secret~true}
 
 functions:
   create-token: ${file(serverless/functions/create-token.yml)}
