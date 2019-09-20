@@ -19,7 +19,9 @@ def handle(event, context):
         validate(body, create_token_request_schema)
     except ValidationError as e:
         logger.exception(f"JSON document does not conform to the given schema: {e}")
-        return lambda_http_proxy_response(400, {"message": "Invalid request body"})
+        return lambda_http_proxy_response(
+            400, json.dumps({"message": "Invalid request body"})
+        )
 
     res, status = keycloak_client.get_token(body["username"], body["password"])
 
@@ -27,4 +29,4 @@ def handle(event, context):
 
 
 def lambda_http_proxy_response(status_code, response_body):
-    return {"statusCode": status_code, "body": json.dumps(response_body)}
+    return {"statusCode": status_code, "body": response_body}

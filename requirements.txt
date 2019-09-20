@@ -1,2 +1,2 @@
-python-keycloak==0.17.5
+python-keycloak-client==0.2.2
 jsonschema==3.0.2

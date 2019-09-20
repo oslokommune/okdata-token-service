@@ -1,4 +1,4 @@
-from keycloak import KeycloakOpenID
+from keycloak.realm import KeycloakOpenidConnect
 import token_service.main.handler as handler
 
 from token_service.test.main_test_data import (
@@ -12,18 +12,20 @@ from token_service.test.main_test_data import (
 )
 
 
-class TestHandle:
+class TestHandler:
     def test_ok(self, mocker):
-        mocker.patch.object(KeycloakOpenID, "token")
-        KeycloakOpenID.token.return_value = keycloak_authorized_response
+        mocker.patch.object(KeycloakOpenidConnect, "password_credentials")
+        KeycloakOpenidConnect.password_credentials.return_value = (
+            keycloak_authorized_response
+        )
 
         response = handler.handle(http_event, {})
 
         assert response == ok_response
 
     def test_unauthorized(self, mocker):
-        mocker.patch.object(KeycloakOpenID, "token")
-        KeycloakOpenID.token.side_effect = keycloak_auth_error
+        mocker.patch.object(KeycloakOpenidConnect, "password_credentials")
+        KeycloakOpenidConnect.password_credentials.side_effect = keycloak_auth_error
 
         response = handler.handle(http_event, {})
 

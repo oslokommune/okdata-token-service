@@ -14,16 +14,16 @@ provider:
   tracing:
     lambda: true
     apiGateway: true
-  iamManagedPolicies:
-    - Fn::Join:
-        - ':'
-        - - 'arn:aws:iam::aws'
-          - 'policy/AWSXRayDaemonWriteAccess'
   environment:
     KEYCLOAK_SERVER: ${ssm:/keycloak/client/server}
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
     CLIENT_SECRET: ${ssm:/dataplatform/services/token-service/auth/client_secret~true}
+  iamManagedPolicies:
+    - Fn::Join:
+        - ':'
+        - - 'arn:aws:iam::aws'
+          - 'policy/AWSXRayDaemonWriteAccess'
 
 functions:
   create-token: ${file(serverless/functions/create-token.yml)}

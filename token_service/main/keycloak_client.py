@@ -1,26 +1,28 @@
 import json
 import os
+import logging
 
-
-from keycloak import KeycloakOpenID
-from keycloak.exceptions import KeycloakAuthenticationError
+from keycloak.realm import KeycloakRealm
+from keycloak.exceptions import KeycloakClientError
 
 server_url = os.environ["KEYCLOAK_SERVER"]
 client_id = os.environ["CLIENT_ID"]
 realm_name = os.environ["KEYCLOAK_REALM"]
 client_secret = os.environ["CLIENT_SECRET"]
 
-# Configure client
-token_service_client = KeycloakOpenID(
-    server_url=server_url,
-    client_id=client_id,
-    realm_name=realm_name,
-    client_secret_key=client_secret,
-)
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+realm = KeycloakRealm(server_url=server_url, realm_name=realm_name)
+
+openid_client = realm.open_id_connect(client_id=client_id, client_secret=client_secret)
 
 
 def get_token(username, password):
     try:
-        return token_service_client.token(username, password), 200
-    except KeycloakAuthenticationError as ke:
-        return json.loads(ke.response_body), ke.response_code
+        res = openid_client.password_credentials(username=username, password=password)
+        return json.dumps(res), 200
+    except KeycloakClientError as ke:
+        logger.exception(f"{ke}")
+        return json.dumps({"message": "Unauthorized"}), 401

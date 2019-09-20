@@ -14,5 +14,5 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.oslo.kommune.no/origo-dataplatform/token-service",
     packages=setuptools.find_packages(),
-    install_requires=["jsonschema", "python-keycloak"],
+    install_requires=["jsonschema"],
 )

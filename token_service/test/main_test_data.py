@@ -1,5 +1,5 @@
 import json
-from keycloak.exceptions import KeycloakAuthenticationError
+from keycloak.exceptions import KeycloakClientError
 
 
 http_event = {"body": '{"username":"username","password":"password"}'}
@@ -17,21 +17,11 @@ keycloak_authorized_response = {
 
 ok_response = {"statusCode": 200, "body": json.dumps(keycloak_authorized_response)}
 
-unauthorized_response_body = {
-    "error": "invalid_grant",
-    "error_description": "Invalid user credentials",
-}
+unauthorized_response_body = json.dumps({"message": "Unauthorized"})
 
-keycloak_auth_error = KeycloakAuthenticationError(
-    error_message="Some error message",
-    response_body=json.dumps(unauthorized_response_body),
-    response_code=401,
-)
+keycloak_auth_error = KeycloakClientError(RuntimeError("Unauthorized"))
 
-unauthorized_response = {
-    "statusCode": 401,
-    "body": json.dumps(unauthorized_response_body),
-}
+unauthorized_response = {"statusCode": 401, "body": unauthorized_response_body}
 
 http_event_invalid_body = {"body": '{"cake":"username","donut":"password"}'}
 

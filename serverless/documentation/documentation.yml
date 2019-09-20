@@ -16,5 +16,5 @@ models:
     schema: ${file(serverless/documentation/schemas/unauthorizedResponse.json)}
   -
     name: standardResponse
-    contentType: applicaion/json
+    contentType: application/json
     schema: ${file(serverless/documentation/schemas/standardResponse.json)}
