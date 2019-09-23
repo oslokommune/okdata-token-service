@@ -1,3 +1,3 @@
 # token-service
 
-Keycloak needs to be configured, follow readme on: https://github.oslo.kommune.no/origodigi/event-consumer-api
+Provides Access and Refresh tokens. For use with machine resources.

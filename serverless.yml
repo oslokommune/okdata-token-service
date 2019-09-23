@@ -1,0 +1,45 @@
+frameworkVersion: ">=1.50.0 <2.0.0"
+
+service: token-service
+
+provider:
+  name: aws
+  runtime: python3.7
+  region: ${opt:region, 'eu-west-1'}
+  stage: ${opt:stage, 'dev'}
+  deploymentBucket:
+    name: ok-origo-dataplatform-config-${self:provider.stage}
+    serverSideEncryption: AES256
+  deploymentPrefix: deploy
+  tracing:
+    lambda: true
+    apiGateway: true
+  environment:
+    KEYCLOAK_SERVER: ${ssm:/keycloak/client/server}
+    KEYCLOAK_REALM: api-catalog
+    CLIENT_ID: token-service
+    CLIENT_SECRET: ${ssm:/dataplatform/services/token-service/auth/client_secret~true}
+  iamManagedPolicies:
+    - Fn::Join:
+        - ':'
+        - - 'arn:aws:iam::aws'
+          - 'policy/AWSXRayDaemonWriteAccess'
+
+functions:
+  create-token: ${file(serverless/functions/create-token.yml)}
+
+plugins:
+  - serverless-aws-documentation
+  - serverless-python-requirements
+package:
+  exclude:
+    - "**/*"
+  include:
+    - "token_service/main/*.py"
+    - "serverless/documentation/schemas/*.json"
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+    usePoetry: false
+  documentation: ${file(serverless/documentation/documentation.yml)}
