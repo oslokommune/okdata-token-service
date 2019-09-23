@@ -55,10 +55,10 @@ is-git-clean:
 update-ssm-dev:
 	url=$$(sls info --stage dev --aws-profile $(.DEV_PROFILE) --verbose | grep ServiceEndpoint | cut -d' ' -f2) &&\
 	aws --region eu-west-1 --profile $(.DEV_PROFILE) ssm put-parameter --overwrite \
-	--cli-input-json "{\"Type\": \"String\", \"Name\": \"/dataplatform/metadata-api/url\", \"Value\": \"$$url\"}"
+	--cli-input-json "{\"Type\": \"String\", \"Name\": \"/dataplatform/token-service/url\", \"Value\": \"$$url\"}"
 
 .PHONY: update-ssm-prod
 update-ssm-prod:
 	url=$$(sls info --stage prod --aws-profile $(.PROD_PROFILE) --verbose | grep ServiceEndpoint | cut -d' ' -f2) &&\
 	aws --region eu-west-1 --profile $(.PROD_PROFILE) ssm put-parameter --overwrite \
-	--cli-input-json "{\"Type\": \"String\", \"Name\": \"/dataplatform/metadata-api/url\", \"Value\": \"$$url\"}"
+	--cli-input-json "{\"Type\": \"String\", \"Name\": \"/dataplatform/token-service/url\", \"Value\": \"$$url\"}"
