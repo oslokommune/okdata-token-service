@@ -16,7 +16,7 @@ provider:
     apiGateway: true
   environment:
     GIT_REV: ${git:branch}:${git:sha1}
-    KEYCLOAK_SERVER: ${ssm:/keycloak/client/server}
+    KEYCLOAK_SERVER: ${ssm:/keycloak/server}
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
     CLIENT_SECRET: ${ssm:/dataplatform/services/token-service/auth/client_secret~true}
