@@ -1,5 +1,5 @@
 import json
-from keycloak.exceptions import KeycloakClientError
+from keycloak.exceptions import KeycloakAuthenticationError
 
 
 http_event = {"body": '{"username":"username","password":"password"}'}
@@ -19,7 +19,10 @@ ok_response = {"statusCode": 200, "body": json.dumps(keycloak_authorized_respons
 
 unauthorized_response_body = json.dumps({"message": "Unauthorized"})
 
-keycloak_auth_error = KeycloakClientError(RuntimeError("Unauthorized"))
+
+def keycloak_auth_error(*args, **kwargs):
+    raise KeycloakAuthenticationError("Unauthorized")
+
 
 unauthorized_response = {"statusCode": 401, "body": unauthorized_response_body}
 

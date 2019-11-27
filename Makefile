@@ -19,7 +19,7 @@ format:
 
 .PHONY: get-layer-deps
 get-layer-deps:
-	python3 -m pip install --extra-index-url ***REMOVED*** dataplatform-base-layer --upgrade
+	python3 -m pip install --extra-index-url ***REMOVED*** dataplatform-common --upgrade
 
 .PHONY: test
 test:
