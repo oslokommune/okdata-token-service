@@ -30,6 +30,7 @@ provider:
 
 functions:
   create-token: ${file(serverless/functions/create-token.yml)}
+  refresh-token: ${file(serverless/functions/refresh-token.yml)}
 
 plugins:
   - serverless-aws-documentation

@@ -32,3 +32,5 @@ bad_request_response = {
     "statusCode": 400,
     "body": json.dumps({"message": "Invalid request body"}),
 }
+
+refresh_token_http_event = {"body": '{"refresh_token":"somerefreshtoken"}'}

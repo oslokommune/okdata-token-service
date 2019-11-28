@@ -1,0 +1,18 @@
+description: Takes refresh-token and returns new credentials.
+requestBody:
+  description: Refresh-token.
+requestModels:
+  application/json: refreshTokenRequest
+methodResponses:
+  -
+    statusCode: 200
+    responseModels:
+      application/json: createTokenResponse
+  -
+    statusCode: 401
+    responseModels:
+      application/json: unauthorizedResponse
+  -
+    statusCode: 400
+    responseModels:
+      application/json: standardResponse
