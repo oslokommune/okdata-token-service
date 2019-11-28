@@ -13,6 +13,10 @@ from token_service.test.main_test_data import (
     refresh_token_http_event,
 )
 
+from aws_xray_sdk.core import xray_recorder
+
+xray_recorder.begin_segment("Test")
+
 
 class TestHandler:
     def test_ok(self, mocker):
