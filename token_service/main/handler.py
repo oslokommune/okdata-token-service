@@ -16,8 +16,8 @@ patch_all()
 
 
 @logging_wrapper("token-service")
-@xray_recorder.capture("handle")
-def handle(event, context):
+@xray_recorder.capture("handle_create_token")
+def handle_create_token(event, context):
     body = json.loads(event["body"])
 
     validate_error_response = validate_request_body(body, create_token_request_schema)
