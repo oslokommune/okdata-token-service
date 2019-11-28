@@ -3,6 +3,6 @@ layers:
   - ${ssm:/dataplatform/python-base-lambda-layer/arn}
 events:
   - http:
-      path: token/refresh
+      path: refresh
       method: post
       documentation: ${file(serverless/documentation/refresh-token.yml)}
