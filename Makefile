@@ -27,11 +27,15 @@ test:
 
 .PHONY: deploy
 deploy: init format test login-dev
-	sls deploy --stage dev --aws-profile $(.DEV_PROFILE)
+	sls deploy --stage $${STAGE:-dev} --aws-profile $(.DEV_PROFILE)
 
 .PHONY: deploy-prod
 deploy-prod: init format is-git-clean test login-prod
 	sls deploy --stage prod --aws-profile $(.PROD_PROFILE)
+
+.PHONY: undeploy
+undeploy: login-dev
+	sls remove --stage $${STAGE} --aws-profile $(.DEV_PROFILE)
 
 .PHONY: login-dev
 login-dev:
