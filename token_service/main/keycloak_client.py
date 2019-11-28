@@ -29,3 +29,12 @@ def get_token(username, password):
     except KeycloakAuthenticationError as ke:
         logger.exception(f"{ke}")
         return json.dumps({"message": "Unauthorized"}), 401
+
+
+def refresh_token(refr_token):
+    try:
+        res = openid_client.refresh_token(refresh_token=refr_token)
+        return json.dumps(res), 200
+    except KeycloakAuthenticationError as ke:
+        logger.exception(f"{ke}")
+        return json.dumps({"message": "Unauthorized"}), 401
