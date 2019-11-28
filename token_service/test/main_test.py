@@ -15,7 +15,6 @@ from token_service.test.main_test_data import (
 
 
 class TestHandler:
-
     def test_ok(self, mocker):
         mocker.patch.object(KeycloakOpenID, "token")
         KeycloakOpenID.token.return_value = keycloak_authorized_response
@@ -38,16 +37,16 @@ class TestHandler:
         assert response == bad_request_response
 
     def test_handle_refresh_token_ok(self, mocker):
-        mocker.patch.object(KeycloakOpenidConnect, "refresh_token")
-        KeycloakOpenidConnect.refresh_token.return_value = keycloak_authorized_response
+        mocker.patch.object(KeycloakOpenID, "refresh_token")
+        KeycloakOpenID.refresh_token.return_value = keycloak_authorized_response
 
         response = handler.handle_refresh_token(refresh_token_http_event, {})
 
         assert response == ok_response
 
     def test_handle_refresh_token_unauthorized(self, mocker):
-        mocker.patch.object(KeycloakOpenidConnect, "refresh_token")
-        KeycloakOpenidConnect.refresh_token.side_effect = keycloak_auth_error
+        mocker.patch.object(KeycloakOpenID, "refresh_token")
+        KeycloakOpenID.refresh_token.side_effect = keycloak_auth_error
 
         response = handler.handle_refresh_token(refresh_token_http_event, {})
 
