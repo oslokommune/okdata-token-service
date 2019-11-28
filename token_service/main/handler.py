@@ -17,15 +17,12 @@ with open("serverless/documentation/schemas/refreshTokenRequest.json") as f:
 
 
 def handle(event, context):
+    body = json.loads(event["body"])
 
-    try:
-        body = json.loads(event["body"])
-        validate(body, create_token_request_schema)
-    except ValidationError as e:
-        logger.exception(f"JSON document does not conform to the given schema: {e}")
-        return lambda_http_proxy_response(
-            400, json.dumps({"message": "Invalid request body"})
-        )
+    validate_error_response = validate_request_body(body, create_token_request_schema)
+
+    if validate_error_response:
+        return validate_error_response
 
     res, status = keycloak_client.get_token(body["username"], body["password"])
 
@@ -33,14 +30,13 @@ def handle(event, context):
 
 
 def handle_refresh_token(event, context):
-    try:
-        body = json.loads(event["body"])
-        validate(body, refresh_token_request_schema)
-    except ValidationError as e:
-        logger.exception(f"JSON document does not conform to the given schema: {e}")
-        return lambda_http_proxy_response(
-            400, json.dumps({"message": "Invalid request body"})
-        )
+
+    body = json.loads(event["body"])
+
+    validate_error_response = validate_request_body(body, refresh_token_request_schema)
+
+    if validate_error_response:
+        return validate_error_response
 
     res, status = keycloak_client.refresh_token(body["refresh_token"])
 
