@@ -25,6 +25,8 @@ def handle_create_token(event, context):
     if validate_error_response:
         return validate_error_response
 
+    log_add(principal_id=strip_username(body["username"]))
+
     res, status = log_duration(
         lambda: keycloak_client.request_token(body["username"], body["password"]),
         "keycloak_request_token_duration",
@@ -36,7 +38,6 @@ def handle_create_token(event, context):
 @logging_wrapper("token-service")
 @xray_recorder.capture("handle_refresh_token")
 def handle_refresh_token(event, context):
-
     body = json.loads(event["body"])
 
     validate_error_response = validate_request_body(body, refresh_token_request_schema)
@@ -66,6 +67,5 @@ def lambda_http_proxy_response(status_code, response_body):
     return {"statusCode": status_code, "body": response_body}
 
 
-def delete_this_method():
-
-    return {"yo": "bro"}
+def strip_username(username):
+    return username[0:-3] + "xxx"
