@@ -50,7 +50,7 @@ custom:
     usePoetry: false
   esLogs:
     endpoint: ${ssm:/dataplatform/elasticsearch/endpoint}
-    index: token-service
+    index: ${self:service}
     filterPattern: '{ $.function_name = "*" }'
   documentation: ${file(serverless/documentation/documentation.yml)}
   deploymentBucket:

@@ -1,4 +1,4 @@
-handler: token_service/main/handler.handle_create_token
+handler: token_service/main/handler.create_token
 layers:
   - ${ssm:/dataplatform/python-base-lambda-layer/arn}
 events:

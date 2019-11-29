@@ -19,24 +19,24 @@ xray_recorder.begin_segment("Test")
 
 
 class TestHandler:
-    def test_handle_create_token_ok(self, mocker):
+    def test_create_token_ok(self, mocker):
         mocker.patch.object(KeycloakOpenID, "token")
         KeycloakOpenID.token.return_value = keycloak_authorized_response
 
-        response = handler.handle_create_token(http_event, {})
+        response = handler.create_token(http_event, {})
 
         assert response == ok_response
 
-    def test_handle_create_token_unauthorized(self, mocker):
+    def test_create_token_unauthorized(self, mocker):
         mocker.patch.object(KeycloakOpenID, "token", new=keycloak_auth_error)
 
-        response = handler.handle_create_token(http_event, {})
+        response = handler.create_token(http_event, {})
 
         assert response == unauthorized_response
 
-    def test_handle_create_token_invalid_body(self):
+    def test_create_token_invalid_body(self):
 
-        response = handler.handle_create_token(http_event_invalid_body, {})
+        response = handler.create_token(http_event_invalid_body, {})
 
         assert response == bad_request_response
 
