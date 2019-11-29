@@ -30,7 +30,7 @@ def create_token(event, context):
     if validate_error_response:
         return validate_error_response
 
-    log_add(principal_id=hide_suffix(body["username"]))
+    log_add(username=hide_suffix(body["username"]))
 
     res, status = log_duration(
         lambda: keycloak_client.request_token(body["username"], body["password"]),
