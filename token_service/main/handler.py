@@ -41,8 +41,8 @@ def create_token(event, context):
 
 
 @logging_wrapper("token-service")
-@xray_recorder.capture("handle_refresh_token")
-def handle_refresh_token(event, context):
+@xray_recorder.capture("refresh_token")
+def refresh_token(event, context):
     body = json.loads(event["body"])
 
     validate_error_response = validate_request_body(body, refresh_token_request_schema)
