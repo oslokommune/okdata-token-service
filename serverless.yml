@@ -36,6 +36,7 @@ plugins:
   - serverless-aws-documentation
   - serverless-python-requirements
   - serverless-plugin-git-variables
+  - serverless-es-logs
 package:
   exclude:
     - "**/*"
@@ -47,6 +48,10 @@ custom:
   pythonRequirements:
     dockerizePip: non-linux
     usePoetry: false
+  esLogs:
+    endpoint: ${ssm:/dataplatform/elasticsearch/endpoint}
+    index: ${self:service}
+    filterPattern: '{ $.function_name = "*" }'
   documentation: ${file(serverless/documentation/documentation.yml)}
   deploymentBucket:
     prod: ok-origo-dataplatform-config-prod
