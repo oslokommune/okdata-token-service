@@ -1,4 +1,4 @@
-frameworkVersion: ">=1.50.0 <2.0.0"
+frameworkVersion: ">=1.64.0 <2.0.0"
 
 service: token-service
 
@@ -20,6 +20,7 @@ provider:
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
     CLIENT_SECRET: ${ssm:/dataplatform/services/token-service/auth/client_secret~true}
+  rolePermissionsBoundary: "arn:aws:iam::#{AWS::AccountId}:policy/oslokommune/oslokommune-boundary"
   iamManagedPolicies:
     - Fn::Join:
         - ':'
@@ -33,6 +34,7 @@ functions:
   refresh-token: ${file(serverless/functions/refresh-token.yml)}
 
 plugins:
+  - serverless-pseudo-parameters
   - serverless-aws-documentation
   - serverless-python-requirements
   - serverless-plugin-git-variables
