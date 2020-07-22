@@ -6,7 +6,7 @@ from keycloak import KeycloakOpenID
 from keycloak.exceptions import KeycloakAuthenticationError
 
 
-server_url = os.environ["KEYCLOAK_SERVER"]
+server_url = os.environ["KEYCLOAK_SERVER"] + "/auth/"
 client_id = os.environ["CLIENT_ID"]
 realm_name = os.environ["KEYCLOAK_REALM"]
 client_secret = os.environ["CLIENT_SECRET"]

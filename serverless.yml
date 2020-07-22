@@ -16,10 +16,10 @@ provider:
     apiGateway: true
   environment:
     GIT_REV: ${git:branch}:${git:sha1}
-    KEYCLOAK_SERVER: ${ssm:/keycloak/server}
+    KEYCLOAK_SERVER: ${ssm:/dataplatform/shared/keycloak-server-url}
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
-    CLIENT_SECRET: ${ssm:/dataplatform/services/token-service/auth/client_secret~true}
+    CLIENT_SECRET: ${ssm:/dataplatform/token-service/keycloak-client-secret~true}
   rolePermissionsBoundary: "arn:aws:iam::#{AWS::AccountId}:policy/oslokommune/oslokommune-boundary"
   iamManagedPolicies:
     - Fn::Join:
