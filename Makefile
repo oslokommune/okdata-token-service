@@ -23,7 +23,7 @@ get-layer-deps:
 
 .PHONY: test
 test:
-	python3 -m tox -p auto
+	python3 -m tox -p auto -o
 
 .PHONY: deploy
 deploy: init format test login-dev
