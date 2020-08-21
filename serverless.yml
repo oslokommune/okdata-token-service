@@ -17,7 +17,7 @@ provider:
   environment:
     GIT_REV: ${git:branch}:${git:sha1}
     KEYCLOAK_SERVER: ${ssm:/dataplatform/shared/keycloak-server-url}
-    KEYCLOAK_REALM: ${ssm:/dataplatform/shared/keycloak-realm}
+    KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
     CLIENT_SECRET: ${ssm:/dataplatform/token-service/keycloak-client-secret~true}
   rolePermissionsBoundary: "arn:aws:iam::#{AWS::AccountId}:policy/oslokommune/oslokommune-boundary"
