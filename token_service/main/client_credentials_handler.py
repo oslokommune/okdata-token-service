@@ -9,18 +9,15 @@ from dataplatform.awslambda.logging import (
     hide_suffix,
 )
 
-from token_service.main.keycloak_client import UserTokenClient
+from token_service.main.keycloak_client import ClientTokenClient
 
-with open("serverless/documentation/schemas/createUserTokenRequest.json") as f:
+with open("serverless/documentation/schemas/createClientTokenRequest.json") as f:
     create_token_request_schema = json.loads(f.read())
 
-with open("serverless/documentation/schemas/refreshUserTokenRequest.json") as f:
+with open("serverless/documentation/schemas/refreshClientTokenRequest.json") as f:
     refresh_token_request_schema = json.loads(f.read())
 
 patch_all()
-
-
-token_client = UserTokenClient()
 
 
 @logging_wrapper("token-service")
@@ -33,10 +30,12 @@ def create_token(event, context):
     if validate_error_response:
         return validate_error_response
 
-    log_add(username=hide_suffix(body["username"]))
+    log_add(client_id=hide_suffix(body["client_id"]))
 
     res, status = log_duration(
-        lambda: token_client.request_token(body["username"], body["password"]),
+        lambda: ClientTokenClient(
+            client_id=body["client_id"], client_secret=body["client_secret"]
+        ).request_token(),
         "keycloak_request_token_duration",
     )
 
@@ -44,7 +43,7 @@ def create_token(event, context):
 
 
 @logging_wrapper("token-service")
-@xray_recorder.capture("refresh_token")
+@xray_recorder.capture("create_token")
 def refresh_token(event, context):
     body = json.loads(event["body"])
 
@@ -53,8 +52,12 @@ def refresh_token(event, context):
     if validate_error_response:
         return validate_error_response
 
+    log_add(client_id=hide_suffix(body["client_id"]))
+
     res, status = log_duration(
-        lambda: token_client.refresh_token(body["refresh_token"]),
+        lambda: ClientTokenClient(
+            client_id=body["client_id"], client_secret=body["client_secret"]
+        ).refresh_token(body["refresh_token"]),
         "keycloak_refresh_token_duration",
     )
 

@@ -2,7 +2,7 @@ description: Takes refresh-token and returns new credentials.
 requestBody:
   description: Refresh-token.
 requestModels:
-  application/json: refreshTokenRequest
+  application/json: refreshUserTokenRequest
 methodResponses:
   -
     statusCode: 200

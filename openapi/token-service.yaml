@@ -16,7 +16,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/createTokenRequest"
+              $ref: "#/components/schemas/createUserTokenRequest"
         required: true
       responses:
         400:
