@@ -7,9 +7,17 @@ models:
     contentType: application/json
     schema: ${file(serverless/documentation/schemas/createUserTokenRequest.json)}
   -
+    name: createClientTokenRequest
+    contentType: application/json
+    schema: ${file(serverless/documentation/schemas/createClientTokenRequest.json)}
+  -
     name: refreshUserTokenRequest
     contentType: application/json
     schema: ${file(serverless/documentation/schemas/refreshUserTokenRequest.json)}
+  -
+    name: refreshClientTokenRequest
+    contentType: application/json
+    schema: ${file(serverless/documentation/schemas/refreshClientTokenRequest.json)}
   -
     name: createTokenResponse
     contentType: application/json

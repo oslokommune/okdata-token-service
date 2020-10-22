@@ -1,6 +1,6 @@
-description: Creates and returns an access token for a user.
+description: Creates and returns an access token for a client.
 requestBody:
-  description: User credentials.
+  description: Client credentials.
 requestModels:
   application/json: createClientTokenRequest
 methodResponses:
