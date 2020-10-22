@@ -1,7 +1,6 @@
 import json
 
 from aws_xray_sdk.core import patch_all, xray_recorder
-from jsonschema import validate, ValidationError
 from dataplatform.awslambda.logging import (
     logging_wrapper,
     log_add,
@@ -10,12 +9,19 @@ from dataplatform.awslambda.logging import (
 )
 
 from token_service.main.keycloak_client import UserTokenClient
+from token_service.main.request_utils import (
+    read_schema,
+    validate_request_body,
+    lambda_http_proxy_response,
+)
 
-with open("serverless/documentation/schemas/createUserTokenRequest.json") as f:
-    create_token_request_schema = json.loads(f.read())
 
-with open("serverless/documentation/schemas/refreshUserTokenRequest.json") as f:
-    refresh_token_request_schema = json.loads(f.read())
+create_token_request_schema = read_schema(
+    "serverless/documentation/schemas/createUserTokenRequest.json"
+)
+refresh_token_request_schema = read_schema(
+    "serverless/documentation/schemas/refreshUserTokenRequest.json"
+)
 
 patch_all()
 
@@ -59,16 +65,3 @@ def refresh_token(event, context):
     )
 
     return lambda_http_proxy_response(status_code=status, response_body=res)
-
-
-def validate_request_body(body, schema):
-    try:
-        validate(body, schema)
-    except ValidationError:
-        return lambda_http_proxy_response(
-            400, json.dumps({"message": "Invalid request body"})
-        )
-
-
-def lambda_http_proxy_response(status_code, response_body):
-    return {"statusCode": status_code, "body": response_body}
