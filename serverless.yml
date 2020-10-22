@@ -30,8 +30,8 @@ provider:
     GIT_REV: ${git:branch}:${git:sha1}
 
 functions:
-  create-token: ${file(serverless/functions/create-token.yml)}
-  refresh-token: ${file(serverless/functions/refresh-token.yml)}
+  create-user-token: ${file(serverless/functions/create-user-token.yml)}
+  refresh-user-token: ${file(serverless/functions/refresh-user-token.yml)}
 
 plugins:
   - serverless-pseudo-parameters

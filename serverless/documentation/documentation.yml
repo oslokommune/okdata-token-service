@@ -3,9 +3,9 @@ summary: Api for requsesting bearer tokens.
 description: Api for requsesting bearer tokens.
 models:
   -
-    name: createTokenRequest
+    name: createUserTokenRequest
     contentType: application/json
-    schema: ${file(serverless/documentation/schemas/createTokenRequest.json)}
+    schema: ${file(serverless/documentation/schemas/createUserTokenRequest.json)}
   -
     name: refreshTokenRequest
     contentType: application/json

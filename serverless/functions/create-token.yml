@@ -1,8 +1,0 @@
-handler: token_service/main/handler.create_token
-layers:
-  - ${ssm:/dataplatform/shared/python-base-layer-arn}
-events:
-  - http:
-      path: token
-      method: post
-      documentation: ${file(serverless/documentation/create-token.yml)}
