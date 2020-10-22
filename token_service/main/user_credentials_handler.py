@@ -9,7 +9,7 @@ from dataplatform.awslambda.logging import (
     hide_suffix,
 )
 
-import token_service.main.keycloak_client as keycloak_client
+from token_service.main.keycloak_client import UserTokenClient
 
 with open("serverless/documentation/schemas/createUserTokenRequest.json") as f:
     create_token_request_schema = json.loads(f.read())
@@ -18,6 +18,9 @@ with open("serverless/documentation/schemas/refreshTokenRequest.json") as f:
     refresh_token_request_schema = json.loads(f.read())
 
 patch_all()
+
+
+token_client = UserTokenClient()
 
 
 @logging_wrapper("token-service")
@@ -33,7 +36,7 @@ def create_token(event, context):
     log_add(username=hide_suffix(body["username"]))
 
     res, status = log_duration(
-        lambda: keycloak_client.request_token(body["username"], body["password"]),
+        lambda: token_client.request_token(body["username"], body["password"]),
         "keycloak_request_token_duration",
     )
 
@@ -51,7 +54,7 @@ def refresh_token(event, context):
         return validate_error_response
 
     res, status = log_duration(
-        lambda: keycloak_client.refresh_token(body["refresh_token"]),
+        lambda: token_client.refresh_token(body["refresh_token"]),
         "keycloak_refresh_token_duration",
     )
 
