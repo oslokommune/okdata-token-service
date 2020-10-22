@@ -1,8 +1,8 @@
 from keycloak import KeycloakOpenID
 
-import token_service.main.handler as handler
+import token_service.main.user_credentials_handler as handler
 
-from token_service.test.main_test_data import (
+from token_service.test.test_data import (
     keycloak_authorized_response,
     http_event,
     ok_response,
