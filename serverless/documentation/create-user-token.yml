@@ -2,7 +2,7 @@ description: Creates and returns an access token.
 requestBody:
   description: User credentials.
 requestModels:
-  application/json: createTokenRequest
+  application/json: createUserTokenRequest
 methodResponses:
   -
     statusCode: 200

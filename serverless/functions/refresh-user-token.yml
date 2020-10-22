@@ -3,4 +3,4 @@ events:
   - http:
       path: refresh
       method: post
-      documentation: ${file(serverless/documentation/refresh-token.yml)}
+      documentation: ${file(serverless/documentation/refresh-user-token.yml)}

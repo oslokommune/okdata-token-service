@@ -3,4 +3,4 @@ events:
   - http:
       path: token
       method: post
-      documentation: ${file(serverless/documentation/create-token.yml)}
+      documentation: ${file(serverless/documentation/create-user-token.yml)}
