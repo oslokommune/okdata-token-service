@@ -11,7 +11,7 @@ from dataplatform.awslambda.logging import (
 
 import token_service.main.keycloak_client as keycloak_client
 
-with open("serverless/documentation/schemas/createTokenRequest.json") as f:
+with open("serverless/documentation/schemas/createUserTokenRequest.json") as f:
     create_token_request_schema = json.loads(f.read())
 
 with open("serverless/documentation/schemas/refreshTokenRequest.json") as f:
