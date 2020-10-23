@@ -29,7 +29,7 @@ patch_all()
 token_client = UserTokenClient()
 
 
-@logging_wrapper("token-service")
+@logging_wrapper
 @xray_recorder.capture("create_token")
 def create_token(event, context):
     body = json.loads(event["body"])
@@ -49,7 +49,7 @@ def create_token(event, context):
     return lambda_http_proxy_response(status_code=status, response_body=res)
 
 
-@logging_wrapper("token-service")
+@logging_wrapper
 @xray_recorder.capture("refresh_token")
 def refresh_token(event, context):
     body = json.loads(event["body"])
