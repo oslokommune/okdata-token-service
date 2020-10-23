@@ -49,7 +49,7 @@ def create_token(event, context):
 
 
 @logging_wrapper("token-service")
-@xray_recorder.capture("create_token")
+@xray_recorder.capture("refresh_token")
 def refresh_token(event, context):
     body = json.loads(event["body"])
 

@@ -20,6 +20,7 @@ provider:
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
     CLIENT_SECRET: ${ssm:/dataplatform/token-service/keycloak-client-secret~true}
+    SERVICE_NAME: token-service
   rolePermissionsBoundary: "arn:aws:iam::#{AWS::AccountId}:policy/oslokommune/oslokommune-boundary"
   iamManagedPolicies:
     - Fn::Join:
