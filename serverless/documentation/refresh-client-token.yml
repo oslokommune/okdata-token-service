@@ -1,8 +1,8 @@
-description: Takes refresh-token and returns new credentials.
+description: Takes refresh-token for a client and returns new credentials.
 requestBody:
-  description: Refresh-token.
+  description: Refresh-token and client credentials.
 requestModels:
-  application/json: refreshUserTokenRequest
+  application/json: refreshClientTokenRequest
 methodResponses:
   -
     statusCode: 200

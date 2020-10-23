@@ -32,6 +32,8 @@ provider:
 functions:
   create-user-token: ${file(serverless/functions/create-user-token.yml)}
   refresh-user-token: ${file(serverless/functions/refresh-user-token.yml)}
+  create-client-token: ${file(serverless/functions/create-client-token.yml)}
+  refresh-client-token: ${file(serverless/functions/refresh-client-token.yml)}
 
 plugins:
   - serverless-pseudo-parameters

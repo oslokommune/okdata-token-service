@@ -2,7 +2,25 @@ import json
 from keycloak.exceptions import KeycloakAuthenticationError
 
 
-http_event = {"body": '{"username":"username","password":"password"}'}
+create_user_token_event = {
+    "body": json.dumps({"username": "username", "password": "password"})
+}
+refresh_user_token_http_event = {
+    "body": json.dumps({"refresh_token": "somerefreshtoken"})
+}
+
+create_client_token_event = {
+    "body": json.dumps({"client_id": "username", "client_secret": "password"})
+}
+refresh_client_token_http_event = {
+    "body": json.dumps(
+        {
+            "client_id": "username",
+            "client_secret": "password",
+            "refresh_token": "somerefreshtoken",
+        }
+    )
+}
 
 keycloak_authorized_response = {
     "access_token": "yo",
@@ -26,11 +44,11 @@ def keycloak_auth_error(*args, **kwargs):
 
 unauthorized_response = {"statusCode": 401, "body": unauthorized_response_body}
 
-http_event_invalid_body = {"body": '{"cake":"username","donut":"password"}'}
+http_event_invalid_body = {
+    "body": json.dumps({"cake": "username", "donut": "password"})
+}
 
 bad_request_response = {
     "statusCode": 400,
     "body": json.dumps({"message": "Invalid request body"}),
 }
-
-refresh_token_http_event = {"body": '{"refresh_token":"somerefreshtoken"}'}

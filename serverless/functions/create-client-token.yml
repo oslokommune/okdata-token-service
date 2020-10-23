@@ -1,0 +1,6 @@
+handler: token_service/main/client_credentials_handler.create_token
+events:
+  - http:
+      path: client/token
+      method: post
+      documentation: ${file(serverless/documentation/create-client-token.yml)}

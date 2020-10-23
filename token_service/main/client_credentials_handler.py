@@ -8,7 +8,7 @@ from dataplatform.awslambda.logging import (
     hide_suffix,
 )
 
-from token_service.main.keycloak_client import UserTokenClient
+from token_service.main.keycloak_client import ClientTokenClient
 from token_service.main.request_utils import (
     read_schema,
     validate_request_body,
@@ -17,16 +17,13 @@ from token_service.main.request_utils import (
 
 
 create_token_request_schema = read_schema(
-    "serverless/documentation/schemas/createUserTokenRequest.json"
+    "serverless/documentation/schemas/createClientTokenRequest.json"
 )
 refresh_token_request_schema = read_schema(
-    "serverless/documentation/schemas/refreshUserTokenRequest.json"
+    "serverless/documentation/schemas/refreshClientTokenRequest.json"
 )
 
 patch_all()
-
-
-token_client = UserTokenClient()
 
 
 @logging_wrapper("token-service")
@@ -39,10 +36,12 @@ def create_token(event, context):
     if validate_error_response:
         return validate_error_response
 
-    log_add(username=hide_suffix(body["username"]))
+    log_add(client_id=hide_suffix(body["client_id"]))
 
     res, status = log_duration(
-        lambda: token_client.request_token(body["username"], body["password"]),
+        lambda: ClientTokenClient(
+            client_id=body["client_id"], client_secret=body["client_secret"]
+        ).request_token(),
         "keycloak_request_token_duration",
     )
 
@@ -50,7 +49,7 @@ def create_token(event, context):
 
 
 @logging_wrapper("token-service")
-@xray_recorder.capture("refresh_token")
+@xray_recorder.capture("create_token")
 def refresh_token(event, context):
     body = json.loads(event["body"])
 
@@ -59,8 +58,12 @@ def refresh_token(event, context):
     if validate_error_response:
         return validate_error_response
 
+    log_add(client_id=hide_suffix(body["client_id"]))
+
     res, status = log_duration(
-        lambda: token_client.refresh_token(body["refresh_token"]),
+        lambda: ClientTokenClient(
+            client_id=body["client_id"], client_secret=body["client_secret"]
+        ).refresh_token(body["refresh_token"]),
         "keycloak_refresh_token_duration",
     )
 

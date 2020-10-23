@@ -1,0 +1,6 @@
+handler: token_service/main/client_credentials_handler.refresh_token
+events:
+  - http:
+      path: client/token/refresh
+      method: post
+      documentation: ${file(serverless/documentation/refresh-client-token.yml)}
