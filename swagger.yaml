@@ -1,0 +1,204 @@
+---
+swagger: "2.0"
+info:
+  version: "2020-10-27T08:29:31Z"
+  title: "prod-token-service"
+host: "api.data.oslo.systems"
+basePath: "/token-service"
+schemes:
+- "https"
+paths:
+  /client/token:
+    post:
+      description: "Creates and returns an access token for a client."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "createClientTokenRequest"
+        description: "Client credentials."
+        required: true
+        schema:
+          $ref: "#/definitions/createClientTokenRequest"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/createTokenResponse"
+        400:
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/standardResponse"
+        401:
+          description: "401 response"
+          schema:
+            $ref: "#/definitions/unauthorizedResponse"
+  /client/token/refresh:
+    post:
+      description: "Takes refresh-token for a client and returns new credentials."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "refreshClientTokenRequest"
+        description: "Refresh-token and client credentials."
+        required: true
+        schema:
+          $ref: "#/definitions/refreshClientTokenRequest"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/createTokenResponse"
+        400:
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/standardResponse"
+        401:
+          description: "401 response"
+          schema:
+            $ref: "#/definitions/unauthorizedResponse"
+  /refresh:
+    post:
+      description: "Takes refresh-token and returns new credentials."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "refreshUserTokenRequest"
+        description: "Refresh-token."
+        required: true
+        schema:
+          $ref: "#/definitions/refreshUserTokenRequest"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/createTokenResponse"
+        400:
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/standardResponse"
+        401:
+          description: "401 response"
+          schema:
+            $ref: "#/definitions/unauthorizedResponse"
+  /token:
+    post:
+      description: "Creates and returns an access token for a user."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "createUserTokenRequest"
+        description: "User credentials."
+        required: true
+        schema:
+          $ref: "#/definitions/createUserTokenRequest"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/createTokenResponse"
+        400:
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/standardResponse"
+        401:
+          description: "401 response"
+          schema:
+            $ref: "#/definitions/unauthorizedResponse"
+definitions:
+  unauthorizedResponse:
+    type: "object"
+    required:
+    - "error_description"
+    properties:
+      error_description:
+        type: "string"
+      error:
+        type: "string"
+  createClientTokenRequest:
+    type: "object"
+    required:
+    - "client_id"
+    - "client_secret"
+    properties:
+      client_secret:
+        type: "string"
+      client_id:
+        type: "string"
+  createTokenResponse:
+    type: "object"
+    required:
+    - "access_token"
+    - "expires_in"
+    - "not-before-policy"
+    - "refresh_expires_in"
+    - "refresh_token"
+    - "scope"
+    - "session_state"
+    - "token_type"
+    properties:
+      access_token:
+        type: "string"
+      refresh_token:
+        type: "string"
+      refresh_expires_in:
+        type: "integer"
+      not-before-policy:
+        type: "integer"
+      scope:
+        type: "string"
+      token_type:
+        type: "string"
+      session_state:
+        type: "string"
+      expires_in:
+        type: "integer"
+  refreshClientTokenRequest:
+    type: "object"
+    required:
+    - "client_id"
+    - "client_secret"
+    - "refresh_token"
+    properties:
+      refresh_token:
+        type: "string"
+      client_secret:
+        type: "string"
+      client_id:
+        type: "string"
+  standardResponse:
+    type: "object"
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+    title: "Standard Response"
+  refreshUserTokenRequest:
+    type: "object"
+    required:
+    - "refresh_token"
+    properties:
+      refresh_token:
+        type: "string"
+  createUserTokenRequest:
+    type: "object"
+    required:
+    - "password"
+    - "username"
+    properties:
+      password:
+        type: "string"
+      username:
+        type: "string"
