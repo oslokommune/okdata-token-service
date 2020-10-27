@@ -1,6 +1,6 @@
-version: 0.0.2
-summary: Api for requsesting bearer tokens.
-description: Api for requsesting bearer tokens.
+version: ${git:sha1}
+title: 'Token Service'
+description: Api for requesting and refreshing bearer tokens.
 models:
   -
     name: createUserTokenRequest
