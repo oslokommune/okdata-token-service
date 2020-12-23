@@ -1,4 +1,4 @@
-frameworkVersion: ">=1.64.0 <2.0.0"
+frameworkVersion: ">=2.10.0 <3.0.0"
 
 service: token-service
 
@@ -23,10 +23,7 @@ provider:
     SERVICE_NAME: token-service
   rolePermissionsBoundary: "arn:aws:iam::#{AWS::AccountId}:policy/oslokommune/oslokommune-boundary"
   iamManagedPolicies:
-    - Fn::Join:
-        - ':'
-        - - 'arn:aws:iam::aws'
-          - 'policy/AWSXRayDaemonWriteAccess'
+    - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
   tags:
     GIT_REV: ${git:branch}:${git:sha1}
 
