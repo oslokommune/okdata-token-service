@@ -67,7 +67,7 @@ endif
 .PHONY: is-git-clean
 is-git-clean:
 	@status=$$(git fetch origin && git status -s -b) ;\
-	if test "$${status}" != "## master...origin/master"; then \
+	if test "$${status}" != "## main...origin/main"; then \
 		echo; \
 		echo Git working directory is dirty, aborting >&2; \
 		false; \

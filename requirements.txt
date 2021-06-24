@@ -4,83 +4,72 @@
 #
 #    pip-compile
 #
-attrs==19.3.0
+attrs==21.2.0
     # via jsonschema
-aws-xray-sdk==2.6.0
-    # via token-service (setup.py)
-botocore==1.19.2
+aws-xray-sdk==2.8.0
+    # via okdata-token-service (setup.py)
+botocore==1.20.99
     # via aws-xray-sdk
-certifi==2020.6.20
+certifi==2021.5.30
     # via requests
-chardet==3.0.4
+chardet==4.0.0
     # via requests
-ecdsa==0.14.1
+ecdsa==0.17.0
     # via python-jose
 future==0.18.2
     # via aws-xray-sdk
 idna==2.10
     # via requests
-importlib-metadata==2.0.0
-    # via jsonpickle
 jmespath==0.10.0
     # via botocore
-jsonpickle==1.4.1
-    # via aws-xray-sdk
-jsonschema==3.0.2
+jsonschema==3.2.0
     # via
     #   okdata-sdk
-    #   token-service (setup.py)
-okdata-aws==0.3.0
-    # via token-service (setup.py)
-okdata-sdk==0.6.0
+    #   okdata-token-service (setup.py)
+okdata-aws==0.4.0
+    # via okdata-token-service (setup.py)
+okdata-sdk==0.9.0
     # via okdata-aws
-prettytable==2.0.0
-    # via okdata-sdk
 pyasn1==0.4.8
     # via
     #   python-jose
     #   rsa
-pydantic==1.7.3
+pydantic==1.8.2
     # via okdata-aws
-pyjwt==2.0.1
+pyjwt==2.1.0
     # via okdata-sdk
-pyrsistent==0.15.6
+pyrsistent==0.17.3
     # via jsonschema
 python-dateutil==2.8.1
     # via botocore
-python-jose==3.2.0
+python-jose==3.3.0
     # via python-keycloak
-python-keycloak==0.22.0
+python-keycloak==0.25.0
     # via
     #   okdata-sdk
-    #   token-service (setup.py)
-requests==2.24.0
+    #   okdata-token-service (setup.py)
+requests==2.25.1
     # via
     #   okdata-sdk
     #   python-keycloak
-rsa==4.6
+rsa==4.7.2
     # via python-jose
-six==1.13.0
+six==1.16.0
     # via
     #   ecdsa
     #   jsonschema
-    #   pyrsistent
     #   python-dateutil
-    #   python-jose
-    #   structlog
-structlog==20.1.0
+structlog==21.1.0
     # via okdata-aws
-urllib3==1.25.11
+typing-extensions==3.10.0.0
+    # via pydantic
+urllib3==1.26.5
     # via
     #   botocore
     #   okdata-sdk
     #   requests
-wcwidth==0.2.5
-    # via prettytable
 wrapt==1.12.1
     # via aws-xray-sdk
-zipp==3.3.1
-    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

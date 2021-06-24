@@ -1,11 +1,11 @@
 # token-service
 
-REST API for generating user tokens with keycloak.
+REST API for generating user tokens with Keycloak.
 
 ## Setup
 
 1. [Install Serverless Framework](https://serverless.com/framework/docs/getting-started/)
-2. Install plugins: 
+2. Install plugins:
 ```
 sls plugin install -n serverless-python-requirements
 sls plugin install -n serverless-aws-documentation
