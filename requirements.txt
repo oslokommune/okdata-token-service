@@ -70,7 +70,7 @@ six==1.13.0
     #   structlog
 structlog==20.1.0
     # via okdata-aws
-urllib3==1.25.11
+urllib3==1.26.5
     # via
     #   botocore
     #   okdata-sdk
