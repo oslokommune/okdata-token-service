@@ -1,7 +1,7 @@
 ---
 swagger: "2.0"
 info:
-  version: "2020-10-27T08:29:31Z"
+  version: "2021-07-02T06:49:17Z"
   title: "prod-token-service"
 host: "api.data.oslo.systems"
 basePath: "/token-service"
@@ -23,15 +23,15 @@ paths:
         schema:
           $ref: "#/definitions/createClientTokenRequest"
       responses:
-        200:
+        "200":
           description: "200 response"
           schema:
             $ref: "#/definitions/createTokenResponse"
-        400:
+        "400":
           description: "400 response"
           schema:
             $ref: "#/definitions/standardResponse"
-        401:
+        "401":
           description: "401 response"
           schema:
             $ref: "#/definitions/unauthorizedResponse"
@@ -50,15 +50,15 @@ paths:
         schema:
           $ref: "#/definitions/refreshClientTokenRequest"
       responses:
-        200:
+        "200":
           description: "200 response"
           schema:
             $ref: "#/definitions/createTokenResponse"
-        400:
+        "400":
           description: "400 response"
           schema:
             $ref: "#/definitions/standardResponse"
-        401:
+        "401":
           description: "401 response"
           schema:
             $ref: "#/definitions/unauthorizedResponse"
@@ -77,15 +77,15 @@ paths:
         schema:
           $ref: "#/definitions/refreshUserTokenRequest"
       responses:
-        200:
+        "200":
           description: "200 response"
           schema:
             $ref: "#/definitions/createTokenResponse"
-        400:
+        "400":
           description: "400 response"
           schema:
             $ref: "#/definitions/standardResponse"
-        401:
+        "401":
           description: "401 response"
           schema:
             $ref: "#/definitions/unauthorizedResponse"
@@ -104,15 +104,15 @@ paths:
         schema:
           $ref: "#/definitions/createUserTokenRequest"
       responses:
-        200:
+        "200":
           description: "200 response"
           schema:
             $ref: "#/definitions/createTokenResponse"
-        400:
+        "400":
           description: "400 response"
           schema:
             $ref: "#/definitions/standardResponse"
-        401:
+        "401":
           description: "401 response"
           schema:
             $ref: "#/definitions/unauthorizedResponse"
