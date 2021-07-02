@@ -14,6 +14,7 @@ def validate_request_body(body, schema):
         return lambda_http_proxy_response(
             400, json.dumps({"message": "Invalid request body"})
         )
+    return None
 
 
 def lambda_http_proxy_response(status_code, response_body):
