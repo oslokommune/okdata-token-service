@@ -1,6 +1,7 @@
-# okdata-token-service
+Token Service
+======================
 
-REST API for generating user tokens with Keycloak.
+REST API for creating access tokens in Keycloak from user and client credentials.
 
 ## Setup
 
