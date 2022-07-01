@@ -1,10 +1,10 @@
-frameworkVersion: ">=2.10.0 <3.0.0"
+frameworkVersion: ">=3.14.0 <4.0.0"
 
 service: token-service
 
 provider:
   name: aws
-  runtime: python3.7
+  runtime: python3.9
   region: ${opt:region, 'eu-west-1'}
   endpointType: REGIONAL
   stage: ${opt:stage, 'dev'}
@@ -12,6 +12,7 @@ provider:
     name: ${self:custom.deploymentBucket.${self:provider.stage}, self:custom.deploymentBucket.dev}
     serverSideEncryption: AES256
   deploymentPrefix: deploy
+  logRetentionInDays: 90
   tracing:
     lambda: true
     apiGateway: true
@@ -20,11 +21,13 @@ provider:
     KEYCLOAK_SERVER: ${ssm:/dataplatform/shared/keycloak-server-url}
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
-    CLIENT_SECRET: ${ssm:/dataplatform/token-service/keycloak-client-secret~true}
+    CLIENT_SECRET: ${ssm:/dataplatform/token-service/keycloak-client-secret}
     SERVICE_NAME: token-service
-  rolePermissionsBoundary: "arn:aws:iam::#{AWS::AccountId}:policy/oslokommune/oslokommune-boundary"
-  iamManagedPolicies:
-    - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
+  iam:
+    role:
+      permissionsBoundary: "arn:aws:iam::${aws:accountId}:policy/oslokommune/oslokommune-boundary"
+      managedPolicies:
+        - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
   tags:
     GIT_REV: ${git:branch}:${git:sha1}
 
@@ -35,15 +38,15 @@ functions:
   refresh-client-token: ${file(serverless/functions/refresh-client-token.yml)}
 
 plugins:
-  - serverless-pseudo-parameters
-  - serverless-aws-documentation
-  - serverless-python-requirements
-  - serverless-plugin-git-variables
+  - "@kakkuk/serverless-aws-apigateway-documentation"
   - serverless-es-logs
+  - serverless-plugin-git-variables
+  - serverless-prune-plugin
+  - serverless-python-requirements
+
 package:
-  exclude:
-    - "**/*"
-  include:
+  patterns:
+    - "!**/*"
     - "token_service/main/*.py"
     - "serverless/documentation/schemas/*.json"
 
@@ -51,6 +54,9 @@ custom:
   pythonRequirements:
     dockerizePip: non-linux
     usePoetry: false
+  prune:
+    automatic: true
+    number: 3
   esLogs:
     endpoint: ${ssm:/dataplatform/shared/logs-elasticsearch-endpoint}
     index: dataplatform-services
