@@ -12,7 +12,7 @@ aws-xray-sdk==2.10.0
     # via okdata-token-service (setup.py)
 botocore==1.27.21
     # via aws-xray-sdk
-certifi==2022.6.15
+certifi==2022.12.7
     # via requests
 charset-normalizer==2.1.0
     # via requests
