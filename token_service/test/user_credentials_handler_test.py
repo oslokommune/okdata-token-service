@@ -35,7 +35,6 @@ class TestUserCredentialsHandler:
         assert response == unauthorized_response
 
     def test_create_token_invalid_body(self):
-
         response = handler.create_token(http_event_invalid_body, {})
 
         assert response == bad_request_response
@@ -57,7 +56,6 @@ class TestUserCredentialsHandler:
         assert response == unauthorized_response
 
     def test_refresh_token_invalid_body(self):
-
         response = handler.refresh_token(http_event_invalid_body, {})
 
         assert response == bad_request_response
