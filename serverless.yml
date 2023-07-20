@@ -39,7 +39,6 @@ functions:
 
 plugins:
   - "@kakkuk/serverless-aws-apigateway-documentation"
-  - serverless-es-logs
   - serverless-plugin-git-variables
   - serverless-prune-plugin
   - serverless-python-requirements
@@ -57,10 +56,6 @@ custom:
   prune:
     automatic: true
     number: 3
-  esLogs:
-    endpoint: ${ssm:/dataplatform/shared/logs-elasticsearch-endpoint}
-    index: dataplatform-services
-    filterPattern: '{ $.function_name = "*" }'
   documentation: ${file(serverless/documentation/documentation.yml)}
   deploymentBucket:
     prod: ok-origo-dataplatform-config-prod
