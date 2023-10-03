@@ -38,6 +38,7 @@ functions:
   refresh-client-token: ${file(serverless/functions/refresh-client-token.yml)}
 
 plugins:
+  - serverless-better-credentials # must be first
   - "@kakkuk/serverless-aws-apigateway-documentation"
   - serverless-plugin-git-variables
   - serverless-prune-plugin
