@@ -81,7 +81,7 @@ typing-extensions==4.2.0
     #   pydantic
     #   starlette
     #   structlog
-urllib3==1.26.17
+urllib3==1.26.18
     # via
     #   botocore
     #   python-keycloak
