@@ -15,9 +15,9 @@ setuptools.setup(
     url="https://github.com/oslokommune/okdata-token-service",
     packages=setuptools.find_packages(),
     install_requires=[
-        "aws-xray-sdk",
+        "aws-xray-sdk>=2.12,<3",
         "jsonschema",
-        "okdata-aws",
+        "okdata-aws>=2,<3",
         "python-keycloak>=1,<2",
     ],
 )
