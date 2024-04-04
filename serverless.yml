@@ -21,12 +21,12 @@ provider:
     KEYCLOAK_SERVER: ${ssm:/dataplatform/shared/keycloak-server-url}
     KEYCLOAK_REALM: api-catalog
     CLIENT_ID: token-service
-    CLIENT_SECRET: ${ssm:/dataplatform/token-service/keycloak-client-secret}
     SERVICE_NAME: token-service
   iam:
     role:
       permissionsBoundary: "arn:aws:iam::${aws:accountId}:policy/oslokommune/oslokommune-boundary"
       managedPolicies:
+        - 'arn:aws:iam::${aws:accountId}:policy/token-service-policy'
         - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
   tags:
     GIT_REV: ${git:branch}:${git:sha1}

@@ -3,6 +3,7 @@ import os
 
 from keycloak import KeycloakOpenID
 from keycloak.exceptions import KeycloakAuthenticationError
+from okdata.aws.ssm import get_secret
 
 
 class TokenClient:
@@ -22,7 +23,9 @@ class TokenClient:
 class UserTokenClient(TokenClient):
     def __init__(self):
         client_id = os.environ["CLIENT_ID"]
-        client_secret = os.environ["CLIENT_SECRET"]
+        client_secret = get_secret(
+            "/dataplatform/token-service/keycloak-client-secret",
+        )
         self.openid_client = KeycloakOpenID(
             server_url=self.server_url,
             realm_name=self.realm_name,
