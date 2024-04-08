@@ -10,8 +10,13 @@ attrs==21.4.0
     # via jsonschema
 aws-xray-sdk==2.12.1
     # via okdata-token-service (setup.py)
+boto3==1.24.21
+    # via okdata-aws
 botocore==1.27.21
-    # via aws-xray-sdk
+    # via
+    #   aws-xray-sdk
+    #   boto3
+    #   s3transfer
 certifi==2023.7.22
     # via requests
 charset-normalizer==2.1.0
@@ -23,21 +28,21 @@ idna==3.3
     #   anyio
     #   requests
 jmespath==1.0.1
-    # via botocore
+    # via
+    #   boto3
+    #   botocore
 jsonschema==4.6.1
     # via
     #   okdata-sdk
     #   okdata-token-service (setup.py)
-okdata-aws==2.0.0
+okdata-aws==4.0.0
     # via okdata-token-service (setup.py)
-okdata-sdk==2.1.0
+okdata-sdk==3.1.0
     # via okdata-aws
 pyasn1==0.4.8
     # via
     #   python-jose
     #   rsa
-pydantic==1.9.1
-    # via okdata-aws
 pyjwt==2.4.0
     # via okdata-sdk
 pyrsistent==0.18.1
@@ -59,6 +64,8 @@ requests==2.31.0
     #   python-keycloak
 rsa==4.8
     # via python-jose
+s3transfer==0.6.2
+    # via boto3
 six==1.16.0
     # via
     #   ecdsa
@@ -69,11 +76,10 @@ starlette==0.36.2
     # via okdata-aws
 structlog==21.5.0
     # via okdata-aws
-typing-extensions==4.2.0
-    # via pydantic
 urllib3==1.26.18
     # via
     #   botocore
+    #   okdata-sdk
     #   python-keycloak
     #   requests
 wrapt==1.14.1

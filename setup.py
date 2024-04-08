@@ -17,7 +17,7 @@ setuptools.setup(
     install_requires=[
         "aws-xray-sdk>=2.12,<3",
         "jsonschema",
-        "okdata-aws>=2,<3",
+        "okdata-aws>=2.1",
         "python-keycloak>=1,<2",
     ],
 )
