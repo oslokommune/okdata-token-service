@@ -1,4 +1,7 @@
-handler: token_service/main/client_credentials_handler.create_token
+image:
+  name: okdata-token-service
+  command:
+    - token_service/main/client_credentials_handler.create_token
 events:
   - http:
       path: client/token
