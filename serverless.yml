@@ -4,7 +4,11 @@ service: token-service
 
 provider:
   name: aws
-  runtime: python3.11
+  ecr:
+    images:
+      okdata-token-service:
+        path: ./
+        platform: linux/amd64
   region: ${opt:region, 'eu-west-1'}
   endpointType: REGIONAL
   stage: ${opt:stage, 'dev'}
@@ -42,18 +46,8 @@ plugins:
   - "@kakkuk/serverless-aws-apigateway-documentation"
   - serverless-plugin-git-variables
   - serverless-prune-plugin
-  - serverless-python-requirements
-
-package:
-  patterns:
-    - "!**/*"
-    - "token_service/main/*.py"
-    - "serverless/documentation/schemas/*.json"
 
 custom:
-  pythonRequirements:
-    dockerizePip: non-linux
-    usePoetry: false
   prune:
     automatic: true
     number: 3
