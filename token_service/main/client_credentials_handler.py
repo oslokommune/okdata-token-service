@@ -10,9 +10,10 @@ from okdata.aws.logging import (
 
 from token_service.main.keycloak_client import ClientTokenClient
 from token_service.main.request_utils import (
+    invalid_json_body_error_response,
+    lambda_http_proxy_response,
     read_schema,
     validate_request_body,
-    lambda_http_proxy_response,
 )
 
 
@@ -29,12 +30,13 @@ patch_all()
 @logging_wrapper
 @xray_recorder.capture("create_token")
 def create_token(event, context):
-    body = json.loads(event["body"])
+    try:
+        body = json.loads(event["body"])
+    except json.decoder.JSONDecodeError:
+        return invalid_json_body_error_response()
 
-    validate_error_response = validate_request_body(body, create_token_request_schema)
-
-    if validate_error_response:
-        return validate_error_response
+    if error_response := validate_request_body(body, create_token_request_schema):
+        return error_response
 
     log_add(client_id=hide_suffix(body["client_id"]))
 
@@ -51,12 +53,13 @@ def create_token(event, context):
 @logging_wrapper
 @xray_recorder.capture("refresh_token")
 def refresh_token(event, context):
-    body = json.loads(event["body"])
+    try:
+        body = json.loads(event["body"])
+    except json.decoder.JSONDecodeError:
+        return invalid_json_body_error_response()
 
-    validate_error_response = validate_request_body(body, refresh_token_request_schema)
-
-    if validate_error_response:
-        return validate_error_response
+    if error_response := validate_request_body(body, refresh_token_request_schema):
+        return error_response
 
     log_add(client_id=hide_suffix(body["client_id"]))
 
