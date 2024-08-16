@@ -1,3 +1,5 @@
+import json
+
 from aws_xray_sdk.core import xray_recorder
 from keycloak import KeycloakOpenID
 
@@ -42,6 +44,15 @@ class TestUserCredentialsHandler:
         response = handler.create_token(http_event_invalid_body, {})
 
         assert response == bad_request_response
+
+    def test_create_token_invalid_json(self):
+        body = json.dumps({"foo": "bar"})
+        # Drop that last closing bracket in the JSON body.
+        body = body[:-1]
+
+        response = handler.create_token({"body": body}, {})
+
+        assert response["statusCode"] == 400
 
     def test_refresh_token_ok(self, mocker):
         mocker.patch.object(KeycloakOpenID, "refresh_token")
