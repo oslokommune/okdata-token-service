@@ -34,8 +34,6 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_PROD }}:role/github-deploy
           aws-region: eu-west-1
       - name: Sts GetCallerIdentity
-        run: |
-          aws sts get-caller-identity
+        run: aws sts get-caller-identity
       - name: Deploy Lambda functions
-        run: |
-          ./node_modules/.bin/sls deploy -s prod
+        run: ./node_modules/.bin/sls deploy -s prod
