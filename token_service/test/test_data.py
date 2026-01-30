@@ -1,7 +1,6 @@
 import json
 from keycloak.exceptions import KeycloakAuthenticationError
 
-
 create_user_token_event = {
     "body": json.dumps({"username": "username", "password": "password"})
 }

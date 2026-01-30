@@ -16,7 +16,6 @@ from token_service.main.request_utils import (
     validate_request_body,
 )
 
-
 create_token_request_schema = read_schema(
     "serverless/documentation/schemas/createClientTokenRequest.json"
 )

@@ -16,7 +16,6 @@ from token_service.test.test_data import (
 import token_service.main.user_credentials_handler as handler
 import token_service.main.keycloak_client
 
-
 xray_recorder.begin_segment("Test")
 
 
