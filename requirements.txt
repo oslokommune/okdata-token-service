@@ -45,7 +45,7 @@ jsonschema-specifications==2025.4.1
     # via jsonschema
 jwcrypto==1.5.7
     # via python-keycloak
-okdata-aws==5.0.0
+okdata-aws==6.0.0
     # via okdata-token-service (setup.py)
 okdata-sdk==3.3.0
     # via okdata-aws
