@@ -17,10 +17,10 @@ from token_service.main.request_utils import (
 )
 
 create_token_request_schema = read_schema(
-    "serverless/documentation/schemas/createClientTokenRequest.json"
+    "token_service/main/schemas/createClientTokenRequest.json"
 )
 refresh_token_request_schema = read_schema(
-    "serverless/documentation/schemas/refreshClientTokenRequest.json"
+    "token_service/main/schemas/refreshClientTokenRequest.json"
 )
 
 patch_all()

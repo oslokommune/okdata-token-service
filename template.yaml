@@ -1,0 +1,182 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >-
+  REST API for creating access tokens in Keycloak from user and client
+  credentials.
+
+Parameters:
+  Stage:
+    Type: String
+    AllowedValues: [dev, prod]
+    Default: dev
+  GitRev:
+    Type: String
+    Description: >-
+      Deployed Git revision, formatted as "branch:short-sha". The deploy status
+      script in dataplatform-config compares the 7-character SHA.
+    Default: unknown
+
+Globals:
+  Function:
+    MemorySize: 1024
+    Timeout: 6
+    Tracing: Active
+    Tags:
+      GIT_REV: !Ref GitRev
+    Environment:
+      Variables:
+        GIT_REV: !Ref GitRev
+        # Resolved from SSM by CloudFormation on every deploy.
+        KEYCLOAK_SERVER: "{{resolve:ssm:/dataplatform/shared/keycloak-server-url}}"
+        KEYCLOAK_REALM: api-catalog
+        CLIENT_ID: token-service
+        SERVICE_NAME: token-service
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub token-service-${Stage}-${AWS::Region}-lambdaRole
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/oslokommune/oslokommune-boundary
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Sub arn:aws:iam::${AWS::AccountId}:policy/token-service-policy
+        - arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
+
+  # The API name and stage name must stay in sync with the `api-gateway-domain`
+  # module in dataplatform-config, which looks up the REST API named
+  # `<env>-token-service` and maps its `<env>` stage to
+  # `api.data[-dev].oslo.systems/token-service`.
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub ${Stage}-token-service
+      StageName: !Ref Stage
+      OpenApiVersion: "3.0.1"
+      EndpointConfiguration:
+        Type: REGIONAL
+      TracingEnabled: true
+      Tags:
+        GIT_REV: !Ref GitRev
+
+  # All functions run the same Docker image (built from `Dockerfile`) and
+  # differ only in the handler passed as the container command.
+
+  CreateUserTokenLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/token-service-${Stage}-create-user-token
+      RetentionInDays: 90
+
+  CreateUserTokenFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: .
+    Properties:
+      FunctionName: !Sub token-service-${Stage}-create-user-token
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - token_service/main/user_credentials_handler.create_token
+      Role: !GetAtt LambdaExecutionRole.Arn
+      LoggingConfig:
+        LogGroup: !Ref CreateUserTokenLogGroup
+      Events:
+        Http:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /token
+            Method: post
+
+  RefreshUserTokenLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/token-service-${Stage}-refresh-user-token
+      RetentionInDays: 90
+
+  RefreshUserTokenFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: .
+    Properties:
+      FunctionName: !Sub token-service-${Stage}-refresh-user-token
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - token_service/main/user_credentials_handler.refresh_token
+      Role: !GetAtt LambdaExecutionRole.Arn
+      LoggingConfig:
+        LogGroup: !Ref RefreshUserTokenLogGroup
+      Events:
+        Http:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /refresh
+            Method: post
+
+  CreateClientTokenLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/token-service-${Stage}-create-client-token
+      RetentionInDays: 90
+
+  CreateClientTokenFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: .
+    Properties:
+      FunctionName: !Sub token-service-${Stage}-create-client-token
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - token_service/main/client_credentials_handler.create_token
+      Role: !GetAtt LambdaExecutionRole.Arn
+      LoggingConfig:
+        LogGroup: !Ref CreateClientTokenLogGroup
+      Events:
+        Http:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /client/token
+            Method: post
+
+  RefreshClientTokenLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/token-service-${Stage}-refresh-client-token
+      RetentionInDays: 90
+
+  RefreshClientTokenFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: .
+    Properties:
+      FunctionName: !Sub token-service-${Stage}-refresh-client-token
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - token_service/main/client_credentials_handler.refresh_token
+      Role: !GetAtt LambdaExecutionRole.Arn
+      LoggingConfig:
+        LogGroup: !Ref RefreshClientTokenLogGroup
+      Events:
+        Http:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /client/token/refresh
+            Method: post
