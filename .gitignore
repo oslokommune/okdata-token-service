@@ -108,8 +108,5 @@ venv.bak/
 # Idea
 .idea/
 
-# npm
-node_modules/
-
-# Serverløess directories
-.serverless/
+# AWS SAM build directory
+.aws-sam/

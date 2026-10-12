@@ -1,9 +1,0 @@
-image:
-  name: okdata-token-service
-  command:
-    - token_service/main/user_credentials_handler.refresh_token
-events:
-  - http:
-      path: refresh
-      method: post
-      documentation: ${file(serverless/documentation/refresh-user-token.yml)}

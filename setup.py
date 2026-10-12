@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="okdata-token-service",
     version="0.0.1",
-    author="Origo Dataplattform",
+    author="Oslo kommune",
     author_email="dataplattform@oslo.kommune.no",
     description="Api for creating access tokens for users",
     long_description=long_description,

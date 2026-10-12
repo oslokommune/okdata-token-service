@@ -16,6 +16,6 @@ exclude = '''
     | env
     | venv
     | \..*venv
-    | \.serverless
+    | \.aws-sam
 )/
 '''
